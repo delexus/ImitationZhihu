@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
+
+    <RadioGroup
+        android:id="@+id/main_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:elevation="4dp"
+        android:orientation="horizontal"
+        android:outlineProvider="bounds"
+        tools:targetApi="LOLLIPOP">
+
+        <RadioButton
+            android:id="@+id/btn_topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_topic_selector"
+            android:button="@null"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/btn_explore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_explore_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/btn_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_notification_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/btn_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_chat_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/btn_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_profile_selector"
+            android:button="@null" />
+
+    </RadioGroup>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="70dp"
+        android:layout_marginEnd="20dp"
+        app:rippleColor="@color/colorRippleBackground"
+        android:src="@drawable/btn_action_publish" />
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</android.support.design.widget.CoordinatorLayout>
