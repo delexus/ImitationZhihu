@@ -5,7 +5,7 @@
     <item
         android:width="@dimen/main_btn_bg_width"
         android:height="@dimen/main_btn_bg_height"
-        android:drawable="@color/colorRippleBackground" />
+        android:drawable="@color/colorBackground" />
     <item
         android:width="@dimen/main_btn_width"
         android:height="@dimen/main_btn_height"

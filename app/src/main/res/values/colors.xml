@@ -3,6 +3,9 @@
     <color name="colorPrimary">#419DE5</color>
     <color name="colorPrimaryDark">#1D88E5</color>
     <color name="colorAccent">#FDD835</color>
+    <color name="colorBackground">#FAFAFA</color>
+    <color name="colorRipple">#E0E0E0</color>
 
-    <color name="colorRippleBackground">#FAFAFA</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#E0E0E0</color>
 </resources>

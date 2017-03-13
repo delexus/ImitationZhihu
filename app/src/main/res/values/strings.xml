@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ImitationZhihu</string>
+
+    <string name="bottomtabbar_feed">feed</string>
+    <string name="main_btn_discover">discover</string>
+    <string name="main_btn_notification">notification</string>
+    <string name="main_btn_message">message</string>
+    <string name="main_btn_more">more</string>
 </resources>
