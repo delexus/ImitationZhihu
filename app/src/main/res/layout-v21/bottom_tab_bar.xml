@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.delexus.imitationzhihu.RadioImageGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@color/white"
+    android:elevation="4dp"
+    android:outlineProvider="bounds"
+    tools:targetApi="LOLLIPOP">
+
+    <com.delexus.imitationzhihu.RadioImageButton
+        android:id="@+id/btn_feed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background_ripple"
+        android:button="@drawable/ic_bottomtabbar_feed"
+        android:buttonTint="@color/bottomtab_color"
+        android:checked="true"
+        android:clickable="true"
+        android:contentDescription="@string/bottomtabbar_feed"
+        android:focusable="true"
+        android:gravity="center" />
+
+    <com.delexus.imitationzhihu.RadioImageButton
+        android:id="@+id/btn_discover"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/background_ripple"
+        android:button="@drawable/ic_bottomtabbar_discover"
+        android:buttonTint="@color/bottomtab_color"
+        android:clickable="true"
+        android:contentDescription="@string/main_btn_discover"
+        android:focusable="true"
+        android:gravity="center" />
+
+    <com.delexus.imitationzhihu.RadioImageButton
+        android:id="@+id/btn_notification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background_ripple"
+        android:button="@drawable/ic_bottomtabbar_notification"
+        android:buttonTint="@color/bottomtab_color"
+        android:clickable="true"
+        android:contentDescription="@string/main_btn_notification"
+        android:focusable="true"
+        android:gravity="center" />
+
+    <com.delexus.imitationzhihu.RadioImageButton
+        android:id="@+id/btn_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background_ripple"
+        android:button="@drawable/ic_bottomtabbar_message"
+        android:buttonTint="@color/bottomtab_color"
+        android:clickable="true"
+        android:contentDescription="@string/main_btn_message"
+        android:focusable="true"
+        android:gravity="center" />
+
+    <com.delexus.imitationzhihu.RadioImageButton
+        android:id="@+id/btn_more"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/background_ripple"
+        android:button="@drawable/ic_bottomtabbar_more"
+        android:buttonTint="@color/bottomtab_color"
+        android:clickable="true"
+        android:contentDescription="@string/main_btn_more"
+        android:focusable="true"
+        android:gravity="center" />
+</com.delexus.imitationzhihu.RadioImageGroup>
