@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -82,6 +83,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     set.setDuration(300);
                     set.start();
                 }
+            }
+        });
+        LinearLayout searchBar = (LinearLayout) findViewById(R.id.search_bar);
+        searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(SearchFragment.class.getSimpleName())
+                        .replace(R.id.content, new SearchFragment())
+                        .commit();
             }
         });
     }

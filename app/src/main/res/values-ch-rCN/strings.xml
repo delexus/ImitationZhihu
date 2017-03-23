@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">模仿知乎</string>
+
+    <string name="main_btn_feed">反馈</string>
+    <string name="main_btn_discover">发现</string>
+    <string name="main_btn_notification">提醒</string>
+    <string name="main_btn_message">消息</string>
+    <string name="main_btn_more">更多</string>
+
+    <string name="search_bar">搜索</string>
+
+</resources>

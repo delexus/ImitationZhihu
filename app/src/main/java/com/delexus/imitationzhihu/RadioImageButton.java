@@ -11,7 +11,7 @@ import android.widget.CompoundButton;
 import java.lang.reflect.Field;
 
 /**
- * Created by ly-yangyuzhi on 2017/3/13.
+ * Created by delexus on 2017/3/13.
  */
 
 public class RadioImageButton extends CompoundButton {
