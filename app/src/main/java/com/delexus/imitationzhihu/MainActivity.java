@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,11 +90,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .addToBackStack(SearchFragment.class.getSimpleName())
-                        .replace(R.id.content, new SearchFragment())
-                        .commit();
+                Fragment fragment = getSupportFragmentManager().
+                        findFragmentByTag(SearchFragment.class.getSimpleName());
+                if (fragment == null) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .addToBackStack(SearchFragment.class.getSimpleName())
+                            .replace(R.id.content, new SearchFragment())
+                            .commit();
+                } else {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .show(fragment)
+                            .commit();
+                }
+
             }
         });
     }

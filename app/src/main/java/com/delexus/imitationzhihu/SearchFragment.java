@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import com.delexus.imitationzhihu.indicator.ColorTransitionPagerTitleView;
 import com.delexus.imitationzhihu.indicator.CommonNavigator;
@@ -22,7 +20,6 @@ import com.delexus.imitationzhihu.indicator.LinePagerIndicator;
 import com.delexus.imitationzhihu.indicator.MagicIndicator;
 import com.delexus.imitationzhihu.indicator.SimplePagerTitleView;
 import com.delexus.imitationzhihu.indicator.ViewPagerHelper;
-import com.delexus.imitationzhihu.util.ReflectUtil;
 import com.delexus.imitationzhihu.util.Util;
 
 import java.util.Arrays;
@@ -58,7 +55,7 @@ public class SearchFragment extends Fragment {
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 SimplePagerTitleView simplePagerTitleView = new ColorTransitionPagerTitleView(context);
-                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.gray50));
+                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.gray200));
                 simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.white));
                 simplePagerTitleView.setText(mDataList.get(index));
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
@@ -82,20 +79,28 @@ public class SearchFragment extends Fragment {
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, viewPager);
 
-        SearchView searchView = (SearchView) view.findViewById(R.id.search_view);
-        SearchView.SearchAutoComplete autoCompleteText = (SearchView.SearchAutoComplete)
-                ReflectUtil.reflectFieldAndReturn(searchView,
-                SearchView.SearchAutoComplete.class.getName(), "mSearchSrcTextView");
-        if (autoCompleteText != null) {
-            autoCompleteText.setBackground(null);
-            InputMethodManager imm = (InputMethodManager) getContext().getApplicationContext()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (autoCompleteText.isFocusable()) {
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-            } else {
-                imm.hideSoftInputFromWindow(autoCompleteText.getWindowToken(), 0);
+        MySearchView mySearchView = (MySearchView) view.findViewById(R.id.search_view);
+        mySearchView.setIconified(false);
+        mySearchView.setOnQueryTextListener(new MySearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
-        }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        mySearchView.setOnCloseListener(new MySearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                getFragmentManager()
+                        .beginTransaction()
+                        .hide(SearchFragment.this)
+                        .commit();
+                return false;
+            }
+        });
     }
 }

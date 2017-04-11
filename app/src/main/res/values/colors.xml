@@ -6,10 +6,11 @@
     <color name="colorAccent">#FDD835</color>
     <color name="colorBackground">#FAFAFA</color>
 
-    <color name="whiteRipple">#E0E0E0</color>
-    <color name="blueRipple">#1E88E5</color>
-
     <color name="white">#FFFFFF</color>
-    <color name="gray50">#FAFAFA</color>
+    <color name="gray100">#F5F5F5</color>
+    <color name="gray200">#EEEEEE</color>
     <color name="gray300">#E0E0E0</color>
+
+    <color name="blue800">#1565C0</color>
+
 </resources>
