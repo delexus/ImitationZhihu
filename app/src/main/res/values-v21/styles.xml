@@ -1,0 +1,12 @@
+<resources>
+
+    <style name="ButtonStyle">
+        <item name="android:buttonTint">@color/bottomtab_color</item>
+    </style>
+
+    <style name="LayoutStyle">
+        <item name="android:outlineProvider">bounds</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+</resources>

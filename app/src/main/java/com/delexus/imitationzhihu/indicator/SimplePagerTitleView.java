@@ -29,7 +29,7 @@ public class SimplePagerTitleView extends TextView implements IMeasurablePagerTi
         int padding = Util.dip2px(context, 10);
         setPadding(padding, 0, padding, 0);
         setSingleLine();
-        setBackground(getResources().getDrawable(R.drawable.blue_ripple));
+        setBackground(getResources().getDrawable(R.drawable.bg_main_btn_pressed));
     }
 
     @Override

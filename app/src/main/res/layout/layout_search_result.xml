@@ -22,8 +22,8 @@
             android:elevation="4dp"
             android:imeOptions="actionSearch"
             app:iconifiedByDefault="false"
-            app:queryHint="@string/search_bar"
-            app:searchIcon="@drawable/ic_navigation_back" />
+            app:navigateIcon="@drawable/ic_navigation_back"
+            app:queryHint="@string/search_bar" />
 
         <com.delexus.imitationzhihu.indicator.MagicIndicator
             android:id="@+id/magic_indicator"

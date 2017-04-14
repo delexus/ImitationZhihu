@@ -2,11 +2,12 @@ package com.delexus.imitationzhihu;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String SEARCH_FRAGMENT = SearchFragment.class.getSimpleName();
     private RadioImageButton mBtnFeed, mBtnDiscover, mBtnNotify,
             mBtnMessage, mBtnMore;
     private RecyclerView mRecyclerView;
@@ -30,8 +32,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CoordinatorLayout mCoordinatorLayout;
     private RadioImageGroup mRadioImageGroup;
     private FloatingActionButton mFab;
+    private LinearLayout mSearchBar;
 
     private boolean mIsBottomVisible = true;
+
+    private SearchFragment mSearchFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         mRadioImageGroup = (RadioImageGroup) findViewById(R.id.main_group);
 
+        mSearchBar = (LinearLayout) findViewById(R.id.search_bar_layout);
+        mSearchBar.setOnClickListener(this);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -86,27 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        LinearLayout searchBar = (LinearLayout) findViewById(R.id.search_bar);
-        searchBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = getSupportFragmentManager().
-                        findFragmentByTag(SearchFragment.class.getSimpleName());
-                if (fragment == null) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .addToBackStack(SearchFragment.class.getSimpleName())
-                            .replace(R.id.content, new SearchFragment())
-                            .commit();
-                } else {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .show(fragment)
-                            .commit();
-                }
 
-            }
-        });
     }
 
     private void loadData() {
@@ -133,6 +120,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_more:
 
+                break;
+            case R.id.search_bar_layout:
+                if (mSearchFragment == null) {
+                    mSearchFragment = new SearchFragment();
+                    mSearchFragment.setOnFragmentState(new SearchFragment.OnFragmentStateListener() {
+                        @Override
+                        public void onHidden(boolean isHidden) {
+                            if (isHidden) {
+                                if (mSearchFragment != null && !mSearchFragment.isHidden()) {
+                                    getFragmentManager()
+                                            .beginTransaction()
+                                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                                            .hide(mSearchFragment)
+                                            .commitAllowingStateLoss();
+                                }
+                            }
+                        }
+                    });
+                    getFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(SEARCH_FRAGMENT)
+                            .add(R.id.content, mSearchFragment, SEARCH_FRAGMENT)
+                            .commit();
+                } else {
+                    Fragment fragment = getFragmentManager().findFragmentByTag(SEARCH_FRAGMENT);
+                    if (fragment != null) {
+                        getFragmentManager()
+                                .beginTransaction()
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .show(fragment)
+                                .commit();
+                    } else {
+                        // When fragment is popped from back stack occurs.(press back button)
+                        getFragmentManager()
+                                .beginTransaction()
+                                .addToBackStack(SEARCH_FRAGMENT)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .add(R.id.content, mSearchFragment, SEARCH_FRAGMENT)
+                                .commit();
+                    }
+                }
+                break;
+            default:
                 break;
         }
     }

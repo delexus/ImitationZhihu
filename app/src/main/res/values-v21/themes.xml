@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:windowAnimationStyle">@style/ActivityFragmentTransition</item>
+
+        <!-- EditText cursor color -->
+        <item name="android:colorControlActivated">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="ActivityFragmentTransition" parent="@android:style/Animation.Activity">
+        <item name="android:fragmentOpenEnterAnimation">@animator/fragment_open_enter</item>
+        <item name="android:fragmentCloseExitAnimation">@animator/fragment_close_exit</item>
+    </style>
+
+</resources>

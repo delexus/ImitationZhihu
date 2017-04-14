@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.delexus.imitationzhihu.RadioImageGroup xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_group"
+    style="@style/LayoutStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="@color/white"
-    android:elevation="4dp"
-    android:outlineProvider="bounds"
-    tools:targetApi="LOLLIPOP">
+    android:background="@color/white">
 
     <com.delexus.imitationzhihu.RadioImageButton
         android:id="@+id/btn_feed"
+        style="@style/ButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/white_ripple"
+        android:background="@drawable/bg_main_btn_normal"
         android:button="@drawable/ic_bottomtabbar_feed"
-        android:buttonTint="@color/bottomtab_color"
         android:checked="true"
         android:clickable="true"
         android:contentDescription="@string/main_btn_feed"
@@ -26,13 +23,13 @@
 
     <com.delexus.imitationzhihu.RadioImageButton
         android:id="@+id/btn_discover"
+        style="@style/ButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="@drawable/white_ripple"
+        android:background="@drawable/bg_main_btn_normal"
         android:button="@drawable/ic_bottomtabbar_discover"
-        android:buttonTint="@color/bottomtab_color"
         android:clickable="true"
         android:contentDescription="@string/main_btn_discover"
         android:focusable="true"
@@ -40,12 +37,12 @@
 
     <com.delexus.imitationzhihu.RadioImageButton
         android:id="@+id/btn_notification"
+        style="@style/ButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/white_ripple"
+        android:background="@drawable/bg_main_btn_normal"
         android:button="@drawable/ic_bottomtabbar_notification"
-        android:buttonTint="@color/bottomtab_color"
         android:clickable="true"
         android:contentDescription="@string/main_btn_notification"
         android:focusable="true"
@@ -53,12 +50,12 @@
 
     <com.delexus.imitationzhihu.RadioImageButton
         android:id="@+id/btn_message"
+        style="@style/ButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/white_ripple"
+        android:background="@drawable/bg_main_btn_normal"
         android:button="@drawable/ic_bottomtabbar_message"
-        android:buttonTint="@color/bottomtab_color"
         android:clickable="true"
         android:contentDescription="@string/main_btn_message"
         android:focusable="true"
@@ -66,12 +63,12 @@
 
     <com.delexus.imitationzhihu.RadioImageButton
         android:id="@+id/btn_more"
+        style="@style/ButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/white_ripple"
+        android:background="@drawable/bg_main_btn_normal"
         android:button="@drawable/ic_bottomtabbar_more"
-        android:buttonTint="@color/bottomtab_color"
         android:clickable="true"
         android:contentDescription="@string/main_btn_more"
         android:focusable="true"

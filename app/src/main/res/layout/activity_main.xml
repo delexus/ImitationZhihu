@@ -22,7 +22,7 @@
                 app:layout_scrollFlags="scroll|snap|enterAlways">
 
                 <LinearLayout
-                    android:id="@+id/search_bar"
+                    android:id="@+id/search_bar_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"

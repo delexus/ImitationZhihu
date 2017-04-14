@@ -1,10 +1,10 @@
 package com.delexus.imitationzhihu;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +33,10 @@ public class SearchFragment extends Fragment {
     private static final String[] CHANNELS = new String[]{"综合", "用户", "话题", "专栏", "Live",
             "电子书"};
     private List<String> mDataList = Arrays.asList(CHANNELS);
+    private OnLifecycleCallbacks mLifecycleCallbacks;
+    private OnFragmentStateListener mOnFragmentStateListener;
+
+    private MySearchView mSearchView;
 
     @Nullable
     @Override
@@ -45,7 +49,7 @@ public class SearchFragment extends Fragment {
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         viewPager.setAdapter(new ExamplePagerAdapter(mDataList));
         MagicIndicator magicIndicator = (MagicIndicator) view.findViewById(R.id.magic_indicator);
-        CommonNavigator commonNavigator = new CommonNavigator(getContext());
+        CommonNavigator commonNavigator = new CommonNavigator(getActivity());
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
@@ -72,16 +76,16 @@ public class SearchFragment extends Fragment {
                 LinePagerIndicator linePagerIndicator = new LinePagerIndicator(context);
                 linePagerIndicator.setMode(LinePagerIndicator.MODE_EXACTLY);
                 linePagerIndicator.setColors(Color.WHITE);
-                linePagerIndicator.setLineWidth(Util.dip2px(getContext(), 72));
+                linePagerIndicator.setLineWidth(Util.dip2px(getActivity(), 72));
                 return linePagerIndicator;
             }
         });
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, viewPager);
 
-        MySearchView mySearchView = (MySearchView) view.findViewById(R.id.search_view);
-        mySearchView.setIconified(false);
-        mySearchView.setOnQueryTextListener(new MySearchView.OnQueryTextListener() {
+        mSearchView = (MySearchView) view.findViewById(R.id.search_view);
+        mSearchView.setIconified(false);
+        mSearchView.setOnQueryTextListener(new MySearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -92,15 +96,55 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-        mySearchView.setOnCloseListener(new MySearchView.OnCloseListener() {
+        mSearchView.setOnNavigateBackLister(new MySearchView.OnNavigateBackListener() {
             @Override
-            public boolean onClose() {
-                getFragmentManager()
-                        .beginTransaction()
-                        .hide(SearchFragment.this)
-                        .commit();
+            public boolean onNavigateBack() {
+                if (mOnFragmentStateListener != null) {
+                    mOnFragmentStateListener.onHidden(true);
+                }
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getView() == null) {
+            return;
+        }
+        // Do it for rotate animation.
+        getView().setPivotX(0);
+        getView().setPivotY(getView().getHeight());
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) {
+            mSearchView.getSearchSrcTextView().requestFocus();
+            mSearchView.setImeVisibility(true);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    public void setOnLifecycleCallbacks(OnLifecycleCallbacks callbacks) {
+        mLifecycleCallbacks = callbacks;
+    }
+
+    public void setOnFragmentState(OnFragmentStateListener listener) {
+        mOnFragmentStateListener = listener;
+    }
+
+    public interface OnLifecycleCallbacks {
+        void onFragmentResume();
+        void onFragmentPaused();
+    }
+
+    public interface OnFragmentStateListener {
+        void onHidden(boolean isHidden);
     }
 }

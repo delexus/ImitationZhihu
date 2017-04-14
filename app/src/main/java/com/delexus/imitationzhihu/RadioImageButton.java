@@ -2,6 +2,7 @@ package com.delexus.imitationzhihu;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -19,13 +20,21 @@ public class RadioImageButton extends CompoundButton {
     private Drawable mDrawable;
 
     public RadioImageButton(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public RadioImageButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public RadioImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         mDrawable = (Drawable) reflectParentFieldAndReturn(this, getClass().getSuperclass().getName(),
                 "mButtonDrawable");
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.colorPrimary) :
+                    getResources().getColor(R.color.gray300), PorterDuff.Mode.SRC_IN);
+        }
     }
 
     @Override
@@ -81,6 +90,10 @@ public class RadioImageButton extends CompoundButton {
         // checked (as opposed to check boxes widgets)
         if (!isChecked()) {
             super.toggle();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.colorPrimary) :
+                        getResources().getColor(R.color.gray300), PorterDuff.Mode.SRC_IN);
+            }
         }
     }
 
