@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * Created by ly-yangyuzhi on 2017/3/3.
+ * Created by delexus on 2017/3/3.
  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
