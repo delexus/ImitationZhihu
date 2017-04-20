@@ -10,7 +10,14 @@
     <color name="gray100">#F5F5F5</color>
     <color name="gray200">#EEEEEE</color>
     <color name="gray300">#E0E0E0</color>
+    <color name="gray500">#FF9E9E9E</color>
+    <color name="gray600">#FF757575</color>
+
+    <color name="yellow600">#FDD835</color>
+
+    <color name="black">#000000</color>
 
     <color name="blue800">#1565C0</color>
 
+    <color name="translucent">#89ffffff</color>
 </resources>

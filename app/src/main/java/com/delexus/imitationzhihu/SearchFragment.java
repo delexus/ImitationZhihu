@@ -59,7 +59,7 @@ public class SearchFragment extends Fragment {
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 SimplePagerTitleView simplePagerTitleView = new ColorTransitionPagerTitleView(context);
-                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.gray200));
+                simplePagerTitleView.setNormalColor(getResources().getColor(R.color.gray300));
                 simplePagerTitleView.setSelectedColor(getResources().getColor(R.color.white));
                 simplePagerTitleView.setText(mDataList.get(index));
                 simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +76,7 @@ public class SearchFragment extends Fragment {
                 LinePagerIndicator linePagerIndicator = new LinePagerIndicator(context);
                 linePagerIndicator.setMode(LinePagerIndicator.MODE_EXACTLY);
                 linePagerIndicator.setColors(Color.WHITE);
-                linePagerIndicator.setLineWidth(Util.dip2px(getActivity(), 72));
+                linePagerIndicator.setLineWidth(Util.dip2px(getActivity(), 50));
                 return linePagerIndicator;
             }
         });

@@ -5,9 +5,9 @@ import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,27 +16,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.delexus.imitationzhihu.view.FloatingActionCheckBox;
 
 /**
  * Created by delexus on 2017/3/3.
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+        RadioImageGroup.OnCheckedChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String SEARCH_FRAGMENT = SearchFragment.class.getSimpleName();
+    private static final String FLOATING_FRAGMENT = FloatingActionFragment.class.getSimpleName();
     private RadioImageButton mBtnFeed, mBtnDiscover, mBtnNotify,
             mBtnMessage, mBtnMore;
     private RecyclerView mRecyclerView;
 
     private CoordinatorLayout mCoordinatorLayout;
     private RadioImageGroup mRadioImageGroup;
-    private FloatingActionButton mFab;
+    private FloatingActionCheckBox mFab;
     private LinearLayout mSearchBar;
 
     private boolean mIsBottomVisible = true;
 
     private SearchFragment mSearchFragment;
+    private FloatingActionFragment mFloatingFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,10 +60,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnMore = (RadioImageButton) findViewById(R.id.btn_more);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab = (FloatingActionCheckBox) findViewById(R.id.fab);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         mRadioImageGroup = (RadioImageGroup) findViewById(R.id.main_group);
+        mRadioImageGroup.setOnCheckedChangeListener(this);
 
         mSearchBar = (LinearLayout) findViewById(R.id.search_bar_layout);
         mSearchBar.setOnClickListener(this);
@@ -94,6 +101,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        mFab.setOnCheckedChangeListener(new FloatingActionCheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(FloatingActionCheckBox actionView, boolean isChecked) {
+                if (isChecked) {
+                    Fragment fragment = getFragmentManager().findFragmentByTag(FLOATING_FRAGMENT);
+                    if (fragment != null) {
+                        getFragmentManager()
+                                .beginTransaction()
+                                .show(fragment)
+                                .commit();
+                    } else {
+                        // When fragment is popped from back stack occurs.(press back button)
+                        mFloatingFragment = new FloatingActionFragment();
+                        getFragmentManager()
+                                .beginTransaction()
+                                .addToBackStack(FLOATING_FRAGMENT)
+                                .add(R.id.floating_container, mFloatingFragment, FLOATING_FRAGMENT)
+                                .commit();
+                    }
+                } else {
+                    getFragmentManager()
+                            .beginTransaction()
+                            .hide(mFloatingFragment)
+                            .commit();
+                }
+
+            }
+        });
+
     }
 
     private void loadData() {
@@ -103,24 +139,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mFab.setChecked(false);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_feed:
-
-
-                break;
-            case R.id.btn_discover:
-
-                break;
-            case R.id.btn_notification:
-
-                break;
-            case R.id.btn_message:
-
-                break;
-            case R.id.btn_more:
-
-                break;
             case R.id.search_bar_layout:
                 if (mSearchFragment == null) {
                     mSearchFragment = new SearchFragment();
@@ -162,6 +188,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 .commit();
                     }
                 }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(RadioImageGroup group, @IdRes int checkedId) {
+        switch (checkedId) {
+            case R.id.btn_feed:
+                Toast.makeText(this, "feed", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btn_discover:
+                Toast.makeText(this, "discover", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btn_notification:
+                Toast.makeText(this, "notification", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btn_message:
+                Toast.makeText(this, "message", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btn_more:
+                Toast.makeText(this, "more", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

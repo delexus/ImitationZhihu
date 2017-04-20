@@ -10,4 +10,7 @@
 
     <string name="search_bar">搜索</string>
 
+    <string name="fab_idea">分享</string>
+    <string name="fab_answer">回答</string>
+    <string name="fab_question">提问</string>
 </resources>

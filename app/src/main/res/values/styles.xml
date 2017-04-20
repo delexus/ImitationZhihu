@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="ButtonStyle">
+    </style>
+
+    <style name="Elevation">
+    </style>
+
+    <style name="LayoutStyle" parent="Elevation">
+    </style>
+
 </resources>

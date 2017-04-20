@@ -372,7 +372,7 @@ public class RadioImageGroup extends LinearLayout {
                     id = View.generateViewId();
                     child.setId(id);
                 }
-                ((RadioImageButton) child).setOnCheckedChangeListener(
+                ((RadioImageButton) child).setOnCheckedChangeWidgetListener(
                         mChildOnCheckedChangeListener);
             }
 
@@ -386,7 +386,7 @@ public class RadioImageGroup extends LinearLayout {
          */
         public void onChildViewRemoved(View parent, View child) {
             if (parent == RadioImageGroup.this && child instanceof RadioImageButton) {
-                ((RadioImageButton) child).setOnCheckedChangeListener(null);
+                ((RadioImageButton) child).setOnCheckedChangeWidgetListener(null);
             }
 
             if (mOnHierarchyChangeListener != null) {

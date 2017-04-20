@@ -17,7 +17,11 @@ import java.lang.reflect.Field;
 
 public class RadioImageButton extends CompoundButton {
 
+    private boolean mBroadcasting;
+
     private Drawable mDrawable;
+
+    private OnCheckedChangeListener mOnCheckedChangeWidgetListener;
 
     public RadioImageButton(Context context) {
         this(context, null);
@@ -90,11 +94,33 @@ public class RadioImageButton extends CompoundButton {
         // checked (as opposed to check boxes widgets)
         if (!isChecked()) {
             super.toggle();
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        }
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        super.setChecked(checked);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            if (mDrawable != null) {
                 mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.colorPrimary) :
                         getResources().getColor(R.color.gray300), PorterDuff.Mode.SRC_IN);
             }
         }
+
+        if (mBroadcasting) {
+            return;
+        }
+
+        mBroadcasting = true;
+        if (mOnCheckedChangeWidgetListener != null) {
+            mOnCheckedChangeWidgetListener.onCheckedChanged(this, isChecked());
+        }
+        mBroadcasting = false;
+    }
+
+    public void setOnCheckedChangeWidgetListener(OnCheckedChangeListener listener) {
+        mOnCheckedChangeWidgetListener = listener;
     }
 
     public static Object reflectParentFieldAndReturn(Object object, String clazzName, String fieldName) {
