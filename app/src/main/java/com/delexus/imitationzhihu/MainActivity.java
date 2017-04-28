@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.delexus.imitationzhihu.view.FloatingActionCheckBox;
+import com.delexus.imitationzhihu.view.FloatingActionLayout;
 
 /**
  * Created by delexus on 2017/3/3.
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String SEARCH_FRAGMENT = SearchFragment.class.getSimpleName();
-    private static final String FLOATING_FRAGMENT = FloatingActionFragment.class.getSimpleName();
     private RadioImageButton mBtnFeed, mBtnDiscover, mBtnNotify,
             mBtnMessage, mBtnMore;
     private RecyclerView mRecyclerView;
@@ -40,9 +40,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout mSearchBar;
 
     private boolean mIsBottomVisible = true;
+    private boolean mIsFloatingVisible = false;
 
     private SearchFragment mSearchFragment;
-    private FloatingActionFragment mFloatingFragment;
+
+    private FloatingActionLayout mFloatingLayout;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         mRadioImageGroup = (RadioImageGroup) findViewById(R.id.main_group);
         mRadioImageGroup.setOnCheckedChangeListener(this);
+
+        mFloatingLayout = (FloatingActionLayout) findViewById(R.id.floating_container);
 
         mSearchBar = (LinearLayout) findViewById(R.id.search_bar_layout);
         mSearchBar.setOnClickListener(this);
@@ -104,28 +109,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFab.setOnCheckedChangeListener(new FloatingActionCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(FloatingActionCheckBox actionView, boolean isChecked) {
-                if (isChecked) {
-                    Fragment fragment = getFragmentManager().findFragmentByTag(FLOATING_FRAGMENT);
-                    if (fragment != null) {
-                        getFragmentManager()
-                                .beginTransaction()
-                                .show(fragment)
-                                .commit();
-                    } else {
-                        // When fragment is popped from back stack occurs.(press back button)
-                        mFloatingFragment = new FloatingActionFragment();
-                        getFragmentManager()
-                                .beginTransaction()
-                                .addToBackStack(FLOATING_FRAGMENT)
-                                .add(R.id.floating_container, mFloatingFragment, FLOATING_FRAGMENT)
-                                .commit();
-                    }
-                } else {
-                    getFragmentManager()
-                            .beginTransaction()
-                            .hide(mFloatingFragment)
-                            .commit();
+                if (mFloatingLayout.getVisibility() == View.INVISIBLE) {
+                    mFloatingLayout.setVisibility(View.VISIBLE);
                 }
+                if (isChecked) {
+                    mIsFloatingVisible = true;
+                    mFloatingLayout.enterAnimation(true);
+                    return;
+                }
+                mIsFloatingVisible = false;
+                mFloatingLayout.enterAnimation(false);
 
             }
         });
@@ -140,8 +133,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (mIsFloatingVisible) {
+            mFab.setChecked(false);
+            return;
+        }
         mFab.setChecked(false);
+        super.onBackPressed();
     }
 
     @Override

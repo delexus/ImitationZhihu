@@ -178,7 +178,7 @@ public class FloatingActionCheckBox extends FloatingActionButton implements Chec
         };
     }
 
-    public static interface OnCheckedChangeListener {
+    public interface OnCheckedChangeListener {
         void onCheckedChanged(FloatingActionCheckBox actionView, boolean isChecked);
     }
 

@@ -22,4 +22,8 @@ public class MyCoordinatorLayout extends CoordinatorLayout {
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return super.onTouchEvent(ev);
+    }
 }

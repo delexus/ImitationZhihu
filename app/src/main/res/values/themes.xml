@@ -12,8 +12,8 @@
     </style>
 
     <style name="ActivityFragmentTransition" parent="@android:style/Animation.Activity">
-        <item name="android:fragmentOpenEnterAnimation">@animator/fragment_open_enter</item>
-        <item name="android:fragmentCloseExitAnimation">@animator/fragment_close_exit</item>
+        <item name="android:fragmentOpenEnterAnimation">@animator/slide_up_open_enter</item>
+        <item name="android:fragmentCloseExitAnimation">@animator/slide_down_close_exit</item>
     </style>
 
 </resources>
