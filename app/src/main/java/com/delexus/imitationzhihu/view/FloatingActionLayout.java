@@ -1,5 +1,6 @@
 package com.delexus.imitationzhihu.view;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -19,11 +20,12 @@ import com.delexus.imitationzhihu.R;
  * Created by delexus on 2017/4/20.
  */
 
-public class FloatingActionLayout extends FrameLayout {
+public class FloatingActionLayout extends FrameLayout implements Animator.AnimatorListener {
 
     private FloatingButton mTextIdea, mTextAnswer, mTextQuestion;
     private FloatingImageButton mImageIdea, mImageAnswer, mImageQuestion;
     private int mTranslationX;
+    private boolean mIsShowing;
 
     public FloatingActionLayout(@NonNull Context context) {
         this(context, null);
@@ -55,6 +57,7 @@ public class FloatingActionLayout extends FrameLayout {
     }
 
     public void enterAnimation(boolean enter) {
+        mIsShowing = enter;
         ObjectAnimator rootViewAnimator;
         ObjectAnimator textIdeaAnimator;
         ObjectAnimator textIdeaAnimator2;
@@ -98,6 +101,7 @@ public class FloatingActionLayout extends FrameLayout {
             imageQuestionAnimator2 = ObjectAnimator.ofFloat(mImageQuestion, View.SCALE_Y, 1, 0);
         }
         AnimatorSet set = new AnimatorSet();
+        set.addListener(this);
         set.setInterpolator(new OvershootInterpolator());
         set.play(rootViewAnimator).with(textIdeaAnimator).with(textIdeaAnimator2)
                 .with(textAnswerAnimator).with(textAnswerAnimator2)
@@ -107,5 +111,30 @@ public class FloatingActionLayout extends FrameLayout {
                 .with(imageQuestionAnimator).with(imageQuestionAnimator2);
         set.setDuration(300);
         set.start();
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+        if (mIsShowing && getVisibility() == GONE) {
+            setVisibility(VISIBLE);
+        }
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        if (!mIsShowing && getVisibility() == VISIBLE) {
+            setVisibility(GONE);
+        }
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+        if (!mIsShowing && getVisibility() == VISIBLE) {
+            setVisibility(GONE);
+        }
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
     }
 }

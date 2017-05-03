@@ -109,9 +109,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFab.setOnCheckedChangeListener(new FloatingActionCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(FloatingActionCheckBox actionView, boolean isChecked) {
-                if (mFloatingLayout.getVisibility() == View.INVISIBLE) {
-                    mFloatingLayout.setVisibility(View.VISIBLE);
-                }
                 if (isChecked) {
                     mIsFloatingVisible = true;
                     mFloatingLayout.enterAnimation(true);
@@ -119,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 mIsFloatingVisible = false;
                 mFloatingLayout.enterAnimation(false);
-
             }
         });
 
