@@ -37,6 +37,19 @@ public class ReflectUtil {
         return method;
     }
 
+    public static Method reflectHideClassMethod(String className, String methodName, Class<?>... parameterTypes) {
+        Method method = null;
+        try {
+            Class clazz = Class.forName(className);
+            method = clazz.getMethod(methodName, parameterTypes);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return method;
+    }
+
     public static Object invokeMethod(Object object, Method method, Object... args) {
         Object ret = null;
         try {

@@ -7,19 +7,29 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.delexus.imitationzhihu.crawler.ContentItem;
+import com.delexus.imitationzhihu.crawler.HttpRequest;
+import com.delexus.imitationzhihu.util.ReflectUtil;
 import com.delexus.imitationzhihu.view.FloatingActionCheckBox;
 import com.delexus.imitationzhihu.view.FloatingActionLayout;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
  * Created by delexus on 2017/3/3.
@@ -38,21 +48,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioImageGroup mRadioImageGroup;
     private FloatingActionCheckBox mFab;
     private LinearLayout mSearchBar;
+    private SwipeRefreshLayout mLoadingLayout;
+    private AppBarLayout mAppBarLayout;
+    private FloatingActionLayout mFloatingLayout;
 
     private boolean mIsBottomVisible = true;
     private boolean mIsFloatingVisible = false;
 
     private SearchFragment mSearchFragment;
 
-    private FloatingActionLayout mFloatingLayout;
-
+    private int mOldTopMargin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        loadData();
+//        loadData();
     }
 
     private void init() {
@@ -63,26 +75,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBtnMore = (RadioImageButton) findViewById(R.id.btn_more);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), LinearLayoutManager.VERTICAL));
+
         mFab = (FloatingActionCheckBox) findViewById(R.id.fab);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         mRadioImageGroup = (RadioImageGroup) findViewById(R.id.main_group);
         mRadioImageGroup.setOnCheckedChangeListener(this);
 
         mFloatingLayout = (FloatingActionLayout) findViewById(R.id.floating_container);
+        mLoadingLayout = (SwipeRefreshLayout) findViewById(R.id.loading_layout);
+        mLoadingLayout.setRefreshing(true);
+
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        // 改变箭头的颜色
+        ImageView circleView = (ImageView) ReflectUtil.reflectFieldAndReturn(mLoadingLayout, SwipeRefreshLayout.class.getName(),
+                "mCircleView");
+        Method setColorSchemeColorsMethod = ReflectUtil.reflectHideClassMethod("android.support.v4.widget.MaterialProgressDrawable",
+                "setColorSchemeColors", int[].class);
+        ReflectUtil.invokeMethod(circleView.getDrawable(), setColorSchemeColorsMethod, new int[]{getResources().getColor(R.color.colorPrimary)});
+
+        mLoadingLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                HttpRequest.getInstance().loadRecommendationList();
+            }
+        });
 
         mSearchBar = (LinearLayout) findViewById(R.id.search_bar_layout);
         mSearchBar.setOnClickListener(this);
+        mRecyclerView.setVisibility(View.GONE);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 Log.d(TAG, "dx = " + String.valueOf(dx) + "dy = " + String.valueOf(dy));
-                if (dy > 0 && mIsBottomVisible) { // 不可见
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
+                        mLoadingLayout.getLayoutParams();
+                params.topMargin = params.topMargin - dy;
+                params.topMargin = params.topMargin <= 0 ? 0 :
+                        params.topMargin > mAppBarLayout.getHeight() ? mAppBarLayout.getHeight() : params.topMargin;
+                if (mOldTopMargin != params.topMargin) {
+                    mLoadingLayout.setLayoutParams(params);
+                }
+                mOldTopMargin = params.topMargin;
+
+                if (dy > 0 && mIsBottomVisible) { // 可见 -> 不可见
                     mIsBottomVisible = false;
                     ObjectAnimator animator = ObjectAnimator.ofFloat(mRadioImageGroup, View.TRANSLATION_Y,
                             mRadioImageGroup.getTranslationY(), mRadioImageGroup.getTranslationY() + mRadioImageGroup.getHeight());
@@ -92,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     set.play(animator).with(fabAnimator);
                     set.setDuration(300);
                     set.start();
-                } else if (dy <= 0 && !mIsBottomVisible) { // 可见
+                } else if (dy <= 0 && !mIsBottomVisible) { // 不可见 -> 可见
                     mIsBottomVisible = true;
                     ObjectAnimator animator = ObjectAnimator.ofFloat(mRadioImageGroup, View.TRANSLATION_Y,
                             mRadioImageGroup.getTranslationY(), 0);
@@ -119,6 +160,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        HttpRequest.getInstance().addOnHttpResponseListener(new HttpRequest.OnHttpResponseListener() {
+            @Override
+            public void onResponse(ArrayList<ContentItem> data) {
+                if (data == null) {
+                    return;
+                }
+                ItemAdapter adapter = new ItemAdapter(data);
+                mRecyclerView.setAdapter(adapter);
+                mLoadingLayout.setRefreshing(false);
+                mRecyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+        HttpRequest.getInstance().loadRecommendationList();
     }
 
     private void loadData() {
