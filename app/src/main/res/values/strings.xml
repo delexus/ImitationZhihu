@@ -12,4 +12,14 @@
     <string name="fab_idea">Share</string>
     <string name="fab_answer">Answer</string>
     <string name="fab_question">Question</string>
+
+    <string name="login_notify">Login Zhihu More Feature</string>
+
+    <string name="more_follow">My Follow</string>
+    <string name="more_favorite">My Favorite</string>
+    <string name="more_draft">My Draft</string>
+    <string name="more_history">My History</string>
+    <string name="more_night_mode">Night Mode</string>
+    <string name="more_setup">Setting</string>
+    <string name="more_title">More</string>
 </resources>

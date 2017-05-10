@@ -1,6 +1,5 @@
 package com.delexus.imitationzhihu;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,15 +25,14 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 搜索界面
  * Created by delexus on 2017/3/20.
  */
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends BaseFragment {
     private static final String[] CHANNELS = new String[]{"综合", "用户", "话题", "专栏", "Live",
             "电子书"};
     private List<String> mDataList = Arrays.asList(CHANNELS);
-    private OnLifecycleCallbacks mLifecycleCallbacks;
-    private OnFragmentStateListener mOnFragmentStateListener;
 
     private MySearchView mSearchView;
 
@@ -99,9 +97,10 @@ public class SearchFragment extends Fragment {
         mSearchView.setOnNavigateBackLister(new MySearchView.OnNavigateBackListener() {
             @Override
             public boolean onNavigateBack() {
-                if (mOnFragmentStateListener != null) {
-                    mOnFragmentStateListener.onHidden(true);
-                }
+                getFragmentManager()
+                        .beginTransaction()
+                        .hide(SearchFragment.this)
+                        .commit();
                 return false;
             }
         });
@@ -120,31 +119,28 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden) {
-            mSearchView.getSearchSrcTextView().requestFocus();
-            mSearchView.setImeVisibility(true);
+        if (hidden) {
+            getOnFragmentStateListener().onHidden(true);
+            return;
         }
+        mSearchView.getSearchSrcTextView().requestFocus();
+        mSearchView.setImeVisibility(true);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (!isHidden()) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .hide(SearchFragment.this)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-    }
-
-    public void setOnLifecycleCallbacks(OnLifecycleCallbacks callbacks) {
-        mLifecycleCallbacks = callbacks;
-    }
-
-    public void setOnFragmentState(OnFragmentStateListener listener) {
-        mOnFragmentStateListener = listener;
-    }
-
-    public interface OnLifecycleCallbacks {
-        void onFragmentResume();
-        void onFragmentPaused();
-    }
-
-    public interface OnFragmentStateListener {
-        void onHidden(boolean isHidden);
     }
 }

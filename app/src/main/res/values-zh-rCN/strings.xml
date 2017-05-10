@@ -13,4 +13,14 @@
     <string name="fab_idea">分享</string>
     <string name="fab_answer">回答</string>
     <string name="fab_question">提问</string>
+
+    <string name="login_notify">登录知乎，体验更多功能</string>
+
+    <string name="more_follow">我的关注</string>
+    <string name="more_favorite">我的收藏</string>
+    <string name="more_draft">我的草稿</string>
+    <string name="more_history">最近浏览</string>
+    <string name="more_night_mode">夜间模式</string>
+    <string name="more_setup">设置</string>
+    <string name="more_title">更多</string>
 </resources>

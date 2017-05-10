@@ -1,102 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.delexus.imitationzhihu.MyCoordinatorLayout
-        android:id="@+id/coordinator_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray200">
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <FrameLayout
-                style="@style/Elevation"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|snap|enterAlways">
-
-                <LinearLayout
-                    android:id="@+id/search_bar_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="7dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="7dp"
-                    android:background="@color/colorPrimaryLight"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="5dp"
-                        android:contentDescription="@string/search_bar"
-                        android:src="@drawable/ic_search_bar" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="5dp"
-                        android:text="@string/search_bar"
-                        android:textColor="@color/gray300" />
-
-                </LinearLayout>
-            </FrameLayout>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/loading_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
-
-        <com.delexus.imitationzhihu.view.FloatingActionLayout
-            android:id="@+id/floating_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:visibility="gone" />
-
-        <include layout="@layout/bottom_tab_bar" />
-
-        <com.delexus.imitationzhihu.view.FloatingActionCheckBox
-            android:id="@+id/fab"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="end|bottom"
-            android:layout_marginBottom="70dp"
-            android:layout_marginEnd="20dp"
-            android:clickable="true"
-            android:src="@drawable/selector_action_publish"
-            app:elevation="4dp" />
-
-    </com.delexus.imitationzhihu.MyCoordinatorLayout>
 
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_height="match_parent"/>
+
+    <include layout="@layout/bottom_tab_bar" />
 
 </RelativeLayout>

@@ -2,250 +2,76 @@ package com.delexus.imitationzhihu;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.delexus.imitationzhihu.crawler.ContentItem;
-import com.delexus.imitationzhihu.crawler.HttpRequest;
-import com.delexus.imitationzhihu.util.ReflectUtil;
-import com.delexus.imitationzhihu.view.FloatingActionCheckBox;
-import com.delexus.imitationzhihu.view.FloatingActionLayout;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 /**
  * Created by delexus on 2017/3/3.
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,
-        RadioImageGroup.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity implements
+        RadioImageGroup.OnCheckedChangeListener, ExploreFragment.OnListScrolledListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String SEARCH_FRAGMENT = SearchFragment.class.getSimpleName();
-    private RadioImageButton mBtnFeed, mBtnDiscover, mBtnNotify,
-            mBtnMessage, mBtnMore;
-    private RecyclerView mRecyclerView;
 
-    private CoordinatorLayout mCoordinatorLayout;
+    private static final String MORE_FRAGMENT = MoreFragment.class.getSimpleName();
+    private static final String EXPLORE_FRAGMENT = ExploreFragment.class.getSimpleName();
+
     private RadioImageGroup mRadioImageGroup;
-    private FloatingActionCheckBox mFab;
-    private LinearLayout mSearchBar;
-    private SwipeRefreshLayout mLoadingLayout;
-    private AppBarLayout mAppBarLayout;
-    private FloatingActionLayout mFloatingLayout;
 
-    private boolean mIsBottomVisible = true;
-    private boolean mIsFloatingVisible = false;
-
-    private SearchFragment mSearchFragment;
-
-    private int mOldTopMargin;
+    private BaseFragment mCurrentFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainApplication.getRefWatcher(this).watch(this);
         setContentView(R.layout.activity_main);
         init();
-//        loadData();
     }
 
     private void init() {
-        mBtnFeed = (RadioImageButton) findViewById(R.id.btn_feed);
-        mBtnDiscover = (RadioImageButton) findViewById(R.id.btn_discover);
-        mBtnNotify = (RadioImageButton) findViewById(R.id.btn_notification);
-        mBtnMessage = (RadioImageButton) findViewById(R.id.btn_message);
-        mBtnMore = (RadioImageButton) findViewById(R.id.btn_more);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), LinearLayoutManager.VERTICAL));
-
-        mFab = (FloatingActionCheckBox) findViewById(R.id.fab);
-        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         mRadioImageGroup = (RadioImageGroup) findViewById(R.id.main_group);
         mRadioImageGroup.setOnCheckedChangeListener(this);
+        showFragment(R.id.content, EXPLORE_FRAGMENT, false, false);
 
-        mFloatingLayout = (FloatingActionLayout) findViewById(R.id.floating_container);
-        mLoadingLayout = (SwipeRefreshLayout) findViewById(R.id.loading_layout);
-        mLoadingLayout.setRefreshing(true);
-
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
-        // 改变箭头的颜色
-        ImageView circleView = (ImageView) ReflectUtil.reflectFieldAndReturn(mLoadingLayout, SwipeRefreshLayout.class.getName(),
-                "mCircleView");
-        Method setColorSchemeColorsMethod = ReflectUtil.reflectHideClassMethod("android.support.v4.widget.MaterialProgressDrawable",
-                "setColorSchemeColors", int[].class);
-        ReflectUtil.invokeMethod(circleView.getDrawable(), setColorSchemeColorsMethod, new int[]{getResources().getColor(R.color.colorPrimary)});
-
-        mLoadingLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                HttpRequest.getInstance().loadRecommendationList();
-            }
-        });
-
-        mSearchBar = (LinearLayout) findViewById(R.id.search_bar_layout);
-        mSearchBar.setOnClickListener(this);
-        mRecyclerView.setVisibility(View.GONE);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                Log.d(TAG, "dx = " + String.valueOf(dx) + "dy = " + String.valueOf(dy));
-                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
-                        mLoadingLayout.getLayoutParams();
-                params.topMargin = params.topMargin - dy;
-                params.topMargin = params.topMargin <= 0 ? 0 :
-                        params.topMargin > mAppBarLayout.getHeight() ? mAppBarLayout.getHeight() : params.topMargin;
-                if (mOldTopMargin != params.topMargin) {
-                    mLoadingLayout.setLayoutParams(params);
-                }
-                mOldTopMargin = params.topMargin;
-
-                if (dy > 0 && mIsBottomVisible) { // 可见 -> 不可见
-                    mIsBottomVisible = false;
-                    ObjectAnimator animator = ObjectAnimator.ofFloat(mRadioImageGroup, View.TRANSLATION_Y,
-                            mRadioImageGroup.getTranslationY(), mRadioImageGroup.getTranslationY() + mRadioImageGroup.getHeight());
-                    ObjectAnimator fabAnimator = ObjectAnimator.ofFloat(mFab, View.TRANSLATION_Y,
-                            mFab.getTranslationY(), mFab.getTranslationY() + mRadioImageGroup.getBottom() - mFab.getTop());
-                    AnimatorSet set = new AnimatorSet();
-                    set.play(animator).with(fabAnimator);
-                    set.setDuration(300);
-                    set.start();
-                } else if (dy <= 0 && !mIsBottomVisible) { // 不可见 -> 可见
-                    mIsBottomVisible = true;
-                    ObjectAnimator animator = ObjectAnimator.ofFloat(mRadioImageGroup, View.TRANSLATION_Y,
-                            mRadioImageGroup.getTranslationY(), 0);
-                    ObjectAnimator fabAnimator = ObjectAnimator.ofFloat(mFab, View.TRANSLATION_Y,
-                            mFab.getTranslationY(), 0);
-                    AnimatorSet set = new AnimatorSet();
-                    set.play(animator).with(fabAnimator);
-                    set.setDuration(300);
-                    set.start();
-                }
-            }
-        });
-
-        mFab.setOnCheckedChangeListener(new FloatingActionCheckBox.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(FloatingActionCheckBox actionView, boolean isChecked) {
-                if (isChecked) {
-                    mIsFloatingVisible = true;
-                    mFloatingLayout.enterAnimation(true);
-                    return;
-                }
-                mIsFloatingVisible = false;
-                mFloatingLayout.enterAnimation(false);
-            }
-        });
-
-        HttpRequest.getInstance().addOnHttpResponseListener(new HttpRequest.OnHttpResponseListener() {
-            @Override
-            public void onResponse(ArrayList<ContentItem> data) {
-                if (data == null) {
-                    return;
-                }
-                ItemAdapter adapter = new ItemAdapter(data);
-                mRecyclerView.setAdapter(adapter);
-                mLoadingLayout.setRefreshing(false);
-                mRecyclerView.setVisibility(View.VISIBLE);
-            }
-        });
-        HttpRequest.getInstance().loadRecommendationList();
-    }
-
-    private void loadData() {
-        SimpleAdapter adapter = new SimpleAdapter();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(adapter);
+        if (mCurrentFragment instanceof ExploreFragment) {
+            ExploreFragment fragment = (ExploreFragment) mCurrentFragment;
+            fragment.setOnListScrolledListener(this);
+        }
     }
 
     @Override
     public void onBackPressed() {
-        if (mIsFloatingVisible) {
-            mFab.setChecked(false);
-            return;
+        if (mCurrentFragment != null) {
+            if (mCurrentFragment.onBackPressed()) {
+                return;
+            }
         }
-        mFab.setChecked(false);
         super.onBackPressed();
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.search_bar_layout:
-                if (mSearchFragment == null) {
-                    mSearchFragment = new SearchFragment();
-                    mSearchFragment.setOnFragmentState(new SearchFragment.OnFragmentStateListener() {
-                        @Override
-                        public void onHidden(boolean isHidden) {
-                            if (isHidden) {
-                                if (mSearchFragment != null && !mSearchFragment.isHidden()) {
-                                    getFragmentManager()
-                                            .beginTransaction()
-                                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                                            .hide(mSearchFragment)
-                                            .commitAllowingStateLoss();
-                                }
-                            }
-                        }
-                    });
-                    getFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .addToBackStack(SEARCH_FRAGMENT)
-                            .add(R.id.content, mSearchFragment, SEARCH_FRAGMENT)
-                            .commit();
-                } else {
-                    Fragment fragment = getFragmentManager().findFragmentByTag(SEARCH_FRAGMENT);
-                    if (fragment != null) {
-                        getFragmentManager()
-                                .beginTransaction()
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                .show(fragment)
-                                .commit();
-                    } else {
-                        // When fragment is popped from back stack occurs.(press back button)
-                        getFragmentManager()
-                                .beginTransaction()
-                                .addToBackStack(SEARCH_FRAGMENT)
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                .add(R.id.content, mSearchFragment, SEARCH_FRAGMENT)
-                                .commit();
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
     public void onCheckedChanged(RadioImageGroup group, @IdRes int checkedId) {
+        // 底部按钮切换到其它Fragment先隐藏掉当前的Fragment，但不要隐藏ExploreFragment
+        if (mCurrentFragment != null) {
+            if (mCurrentFragment instanceof ExploreFragment) {
+                ExploreFragment fragment = (ExploreFragment) mCurrentFragment;
+            } else {
+                getFragmentManager()
+                        .beginTransaction()
+                        .hide(mCurrentFragment)
+                        .commit();
+            }
+        }
         switch (checkedId) {
             case R.id.btn_feed:
-                Toast.makeText(this, "feed", Toast.LENGTH_SHORT).show();
+                showFragment(R.id.content, EXPLORE_FRAGMENT, false, false);
+                ExploreFragment fragment = (ExploreFragment) mCurrentFragment;
                 break;
             case R.id.btn_discover:
                 Toast.makeText(this, "discover", Toast.LENGTH_SHORT).show();
@@ -257,38 +83,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "message", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_more:
-                Toast.makeText(this, "more", Toast.LENGTH_SHORT).show();
+                showFragment(R.id.content, MORE_FRAGMENT, false, false);
                 break;
             default:
                 break;
         }
     }
 
-    private static class SimpleAdapter extends RecyclerView.Adapter {
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new MyHolder(new TextView(parent.getContext()));
+    @Override
+    public void onScrolled(boolean isBottomVisible, AnimatorSet set) {
+        ObjectAnimator animator;
+        if (isBottomVisible) {
+            animator = ObjectAnimator.ofFloat(mRadioImageGroup, View.TRANSLATION_Y,
+                    0, mRadioImageGroup.getHeight());
+        } else {
+            animator = ObjectAnimator.ofFloat(mRadioImageGroup, View.TRANSLATION_Y,
+                    mRadioImageGroup.getTranslationY(), 0);
         }
+        set.setDuration(300);
+        set.playTogether(animator);
+        set.start();
+    }
 
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            MyHolder myHolder = (MyHolder) holder;
-            myHolder.mTextView.setText(String.valueOf(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return 60;
+    private void showFragment(@IdRes int id, String tag, final boolean useTransaction, boolean addToBackStack) {
+        mCurrentFragment = (BaseFragment) getFragmentManager().findFragmentByTag(tag);
+        if (mCurrentFragment != null) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .setTransition(useTransaction ? FragmentTransaction.TRANSIT_FRAGMENT_OPEN :
+                            FragmentTransaction.TRANSIT_NONE)
+                    .show(mCurrentFragment)
+                    .commit();
+        } else { // When fragment is popped from back stack occurs.(press back button)
+            if (tag.equals(EXPLORE_FRAGMENT)) {
+                mCurrentFragment = new ExploreFragment();
+            } else {
+                mCurrentFragment = new MoreFragment();
+            }
+            mCurrentFragment.setOnFragmentState(new BaseFragment.OnFragmentStateListener() {
+                @Override
+                public void onHidden(boolean isHidden) {
+                    if (isHidden) {
+                        if (mCurrentFragment instanceof ExploreFragment) {
+                            mRadioImageGroup.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        if (mCurrentFragment instanceof ExploreFragment) {
+                            mRadioImageGroup.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            });
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            if (addToBackStack) {
+                transaction.addToBackStack(tag);
+            }
+            transaction.setTransition(useTransaction ? FragmentTransaction.TRANSIT_FRAGMENT_OPEN :
+                    FragmentTransaction.TRANSIT_NONE)
+                    .add(id, mCurrentFragment, tag)
+                    .commit();
         }
     }
 
-    private static class MyHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
-
-        public MyHolder(View itemView) {
-            super(itemView);
-            mTextView = (TextView) itemView;
-        }
-    }
 }

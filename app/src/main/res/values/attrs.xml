@@ -23,4 +23,8 @@
         <attr name="android:focusable" />
     </declare-styleable>
 
+    <declare-styleable name="LoginingTextView">
+        <attr name="radius" format="integer"/>
+    </declare-styleable>
+
 </resources>

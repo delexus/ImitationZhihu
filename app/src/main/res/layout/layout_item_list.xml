@@ -5,28 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:background="@color/white">
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:text="title"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cover"
-        app:layout_goneMarginTop="16dp" />
+    android:background="@color/white"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/cover"
         android:layout_width="0dp"
         android:layout_height="125dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
         android:scaleType="fitXY"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -34,37 +19,49 @@
         app:srcCompat="@color/colorPrimary" />
 
     <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="title"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cover" />
+
+    <TextView
         android:id="@+id/summary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
         android:text="summary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
-        android:id="@+id/comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="15dp"
-        android:text="comment"
-        app:layout_constraintBottom_toBottomOf="@+id/vote"
-        app:layout_constraintLeft_toRightOf="@+id/vote" />
-
-    <TextView
         android:id="@+id/vote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="10dp"
         android:text="vote"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/summary"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="comment"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vote"
+        app:layout_constraintLeft_toRightOf="@+id/vote" />
 
 </android.support.constraint.ConstraintLayout>
