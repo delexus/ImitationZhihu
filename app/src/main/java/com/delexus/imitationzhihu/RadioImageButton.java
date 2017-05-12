@@ -35,9 +35,23 @@ public class RadioImageButton extends CompoundButton {
         super(context, attrs, defStyleAttr);
         mDrawable = (Drawable) reflectParentFieldAndReturn(this, getClass().getSuperclass().getName(),
                 "mButtonDrawable");
+        final boolean isDay = MainApplication.getInstance(getContext()).getDayOrNight();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.colorPrimary) :
-                    getResources().getColor(R.color.gray300), PorterDuff.Mode.SRC_IN);
+            if (isDay) {
+                mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
+                        getResources().getColor(R.color.gray_300), PorterDuff.Mode.SRC_IN);
+            } else {
+                mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
+                        getResources().getColor(R.color.blue_gray_700), PorterDuff.Mode.SRC_IN);
+            }
+        } else {
+            if (isDay) {
+                mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
+                        getResources().getColor(R.color.gray_300));
+            } else {
+                mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
+                        getResources().getColor(R.color.blue_gray_700));
+            }
         }
     }
 
@@ -100,11 +114,26 @@ public class RadioImageButton extends CompoundButton {
     @Override
     public void setChecked(boolean checked) {
         super.setChecked(checked);
-
+        final boolean isDay = MainApplication.getInstance(getContext()).getDayOrNight();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             if (mDrawable != null) {
-                mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.colorPrimary) :
-                        getResources().getColor(R.color.gray300), PorterDuff.Mode.SRC_IN);
+                if (isDay) {
+                    mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
+                            getResources().getColor(R.color.gray_300), PorterDuff.Mode.SRC_IN);
+                } else {
+                    mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
+                            getResources().getColor(R.color.blue_gray_700), PorterDuff.Mode.SRC_IN);
+                }
+            }
+        } else {
+            if (mDrawable != null) {
+                if (isDay) {
+                    mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
+                            getResources().getColor(R.color.gray_300));
+                } else {
+                    mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
+                            getResources().getColor(R.color.blue_gray_700));
+                }
             }
         }
 

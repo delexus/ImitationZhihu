@@ -2,18 +2,18 @@
 <com.delexus.imitationzhihu.view.MyLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray200"
+    android:background="?android:attr/colorBackground"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         android:gravity="center_vertical"
         android:paddingEnd="0dp"
         android:paddingStart="16dp"
         android:text="@string/more_title"
-        android:textColor="@color/gray100"
+        android:textColor="@color/gray_100"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/white"
+        android:background="?attr/itemColorBackground"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="20dp"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/login_notify"
-            android:textColor="@color/black"
+            android:textColor="?attr/titleColor"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
             android:background="@drawable/ring_rectangle"
             android:gravity="center"
             android:text="注册/登录"
-            android:textColor="@color/blue800" />
+            android:textColor="@color/blue_800" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/shape_rectangle_white_round"
+        android:background="?attr/itemColorBackground"
         android:orientation="vertical">
 
         <LinearLayout
@@ -64,26 +64,24 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_follow_more"
-                android:tint="@color/gray300" />
+                android:tint="?attr/imageTintColorDeep" />
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/more_follow"
+                android:textColor="?attr/imageTintColorDeep"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="61dp"
-            android:background="@color/gray200" />
+        <View style="@style/Horizontal_Line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,26 +92,23 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_favorite_more"
-                android:tint="@color/gray300" />
+                android:tint="?attr/imageTintColorDeep" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/more_favorite"
+                android:textColor="?attr/imageTintColorDeep"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="61dp"
-            android:background="@color/gray200" />
+        <View style="@style/Horizontal_Line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,26 +119,24 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_draft_more"
-                android:tint="@color/gray300" />
+                android:textColor="?attr/imageTintColorDeep"
+                android:tint="?attr/imageTintColorDeep" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/more_draft"
+                android:textColor="?attr/imageTintColorDeep"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="61dp"
-            android:background="@color/gray200" />
+        <View style="@style/Horizontal_Line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,17 +147,18 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_history_more"
-                android:tint="@color/gray300" />
+                android:tint="?attr/imageTintColorDeep" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/more_history"
+                android:textColor="?attr/imageTintColorDeep"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
@@ -174,43 +168,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/white"
+        android:background="?attr/itemColorBackground"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/layout_nightMode"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/shape_rectangle_white"
             android:clickable="true"
-            android:gravity="center_vertical">
+            android:paddingEnd="10dp"
+            android:paddingStart="16dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="16dp"
+                android:id="@+id/image_night"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
                 android:src="@drawable/ic_nightmode_more"
-                android:tint="@color/gray300" />
+                android:tint="?attr/imageTintColorDeep" />
 
             <TextView
+                android:id="@+id/text_night"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/image_night"
                 android:text="@string/more_night_mode"
+                android:textColor="?attr/imageTintColorDeep"
                 android:textSize="16sp" />
 
             <Switch
-                android:layout_width="match_parent"
+                android:id="@+id/switch_night"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:paddingEnd="10dp"
-                android:paddingStart="0dp" />
-        </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="61dp"
-            android:background="@color/gray200" />
+        <View style="@style/Horizontal_Line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -221,17 +218,18 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_setup_more"
-                android:tint="@color/gray300" />
+                android:tint="?attr/imageTintColorDeep" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/more_setup"
+                android:textColor="?attr/imageTintColorDeep"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

@@ -75,7 +75,7 @@ public class ExploreFragment extends BaseFragment implements View.OnClickListene
                 "mCircleView");
         Method setColorSchemeColorsMethod = ReflectUtil.reflectHideClassMethod("android.support.v4.widget.MaterialProgressDrawable",
                 "setColorSchemeColors", int[].class);
-        ReflectUtil.invokeMethod(circleView.getDrawable(), setColorSchemeColorsMethod, new int[]{getResources().getColor(R.color.colorPrimary)});
+        ReflectUtil.invokeMethod(circleView.getDrawable(), setColorSchemeColorsMethod, new int[]{getResources().getColor(R.color.blue_500)});
 
         mLoadingLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -199,10 +199,6 @@ public class ExploreFragment extends BaseFragment implements View.OnClickListene
         }
         mFab.setChecked(false);
         return super.onBackPressed();
-    }
-
-    public void setAppBarSearchEnable(boolean enable) {
-        mSearchBar.setOnClickListener(enable ? this : null);
     }
 
     public void setOnListScrolledListener(OnListScrolledListener listener) {

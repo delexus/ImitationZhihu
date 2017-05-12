@@ -16,7 +16,7 @@
         android:background="@drawable/shape_circle_white"
         android:padding="5dp"
         android:src="@drawable/ic_fab_question"
-        android:tint="@color/gray600"
+        android:tint="?attr/imageTintColor"
         app:layout_constraintRight_toRightOf="@+id/fab_answer"
         app:layout_constraintTop_toBottomOf="@+id/fab_answer" />
 
@@ -31,7 +31,7 @@
         android:background="@drawable/shape_circle_white"
         android:padding="5dp"
         android:src="@drawable/ic_fab_answer"
-        android:tint="@color/gray600"
+        android:tint="?attr/imageTintColor"
         app:layout_constraintRight_toRightOf="@+id/fab_idea"
         app:layout_constraintTop_toBottomOf="@+id/fab_idea"
         app:srcCompat="@drawable/ic_fab_answer" />
@@ -49,7 +49,7 @@
         android:background="@drawable/shape_circle_white"
         android:padding="5dp"
         android:src="@drawable/ic_fab_idea"
-        android:tint="@color/gray600"
+        android:tint="?attr/imageTintColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -71,7 +71,7 @@
         android:gravity="center"
         android:padding="3dp"
         android:text="@string/fab_idea"
-        android:textStyle="bold"
+        android:textColor="?attr/textColorBackground"
         app:layout_constraintRight_toLeftOf="@+id/fab_idea"
         app:layout_constraintTop_toTopOf="@+id/fab_idea" />
 
@@ -89,7 +89,7 @@
         android:gravity="center"
         android:padding="3dp"
         android:text="@string/fab_answer"
-        android:textStyle="bold"
+        android:textColor="?attr/textColorBackground"
         app:layout_constraintRight_toLeftOf="@+id/fab_answer"
         app:layout_constraintTop_toTopOf="@+id/fab_answer" />
 
@@ -107,7 +107,7 @@
         android:gravity="center"
         android:padding="3dp"
         android:text="@string/fab_question"
-        android:textStyle="bold"
+        android:textColor="?attr/textColorBackground"
         app:layout_constraintRight_toLeftOf="@+id/fab_question"
         app:layout_constraintTop_toTopOf="@+id/fab_question" />
 </android.support.constraint.ConstraintLayout>

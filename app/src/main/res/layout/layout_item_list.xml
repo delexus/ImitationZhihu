@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:background="@color/white"
+    android:background="?attr/itemColorBackground"
     android:padding="16dp">
 
     <ImageView
@@ -16,7 +16,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorPrimary" />
+        android:layout_marginTop="92dp"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <TextView
         android:id="@+id/title"
@@ -25,7 +26,7 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:text="title"
-        android:textColor="@color/black"
+        android:textColor="?attr/titleColor"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -39,6 +40,7 @@
         android:paddingBottom="2dp"
         android:paddingTop="2dp"
         android:text="summary"
+        android:textColor="?attr/textColorBackground"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
@@ -46,9 +48,10 @@
         android:id="@+id/vote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="vote"
-        android:paddingTop="3dp"
         android:paddingBottom="3dp"
+        android:paddingTop="3dp"
+        android:text="vote"
+        android:textColor="?attr/textColorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/summary"
@@ -58,9 +61,10 @@
         android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="comment"
-        android:paddingTop="3dp"
         android:paddingBottom="3dp"
+        android:paddingTop="3dp"
+        android:text="comment"
+        android:textColor="?attr/textColorBackground"
         app:layout_constraintBottom_toBottomOf="@+id/vote"
         app:layout_constraintLeft_toRightOf="@+id/vote" />
 

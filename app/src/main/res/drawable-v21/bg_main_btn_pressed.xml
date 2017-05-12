@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/blue800"
+    android:color="?attr/rippleColor"
     android:radius="5dp">
+
     <item
         android:width="72dp"
         android:height="50dp"
-        android:drawable="@color/colorPrimary"
+        android:drawable="@drawable/shape_drawable"
         android:gravity="center" />
 
 </ripple>

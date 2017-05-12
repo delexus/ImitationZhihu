@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1E88E5</color>
-    <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorPrimaryLight">#42A5F5</color>
-    <color name="colorAccent">#FDD835</color>
-    <color name="colorBackground">#FAFAFA</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="blue_700">#1976D2</color>
+    <color name="blue_400">#42A5F5</color>
+    <color name="blue_800">#1565C0</color>
+
+    <color name="yellow_600">#FDD835</color>
+
+    <color name="blue_gray_900">#263238</color>
+    <color name="blue_gray_800">#37474F</color>
+    <color name="blue_gray_850">#2F3D44</color>
+    <color name="blue_gray_750">#3D4F58</color>
+    <color name="blue_gray_700">#455A64</color>
+    <color name="blue_gray_600">#546E7A</color>
+    <color name="blue_gray_500">#607D8B</color>
+    <color name="blue_gray_400">#78909C</color>
+
+    <color name="gray_50">#FAFAFA</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_600">#757575</color>
 
     <color name="white">#FFFFFF</color>
-    <color name="gray100">#F5F5F5</color>
-    <color name="gray200">#EEEEEE</color>
-    <color name="gray300">#E0E0E0</color>
-    <color name="gray500">#FF9E9E9E</color>
-    <color name="gray600">#FF757575</color>
-
-    <color name="yellow600">#FDD835</color>
-
     <color name="black">#000000</color>
-
-    <color name="blue800">#1565C0</color>
-
     <color name="translucent">#89ffffff</color>
+
 </resources>

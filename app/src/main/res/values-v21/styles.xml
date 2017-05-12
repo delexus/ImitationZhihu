@@ -12,4 +12,11 @@
         <item name="android:outlineProvider">bounds</item>
     </style>
 
+    <style name="Horizontal_Line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">46dp</item>
+        <item name="android:background">?attr/lineColor</item>
+    </style>
+
 </resources>

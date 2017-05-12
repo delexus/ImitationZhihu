@@ -27,4 +27,15 @@
         <attr name="radius" format="integer"/>
     </declare-styleable>
 
+    <declare-styleable name="ThemePrimaryColor">
+        <attr name="itemColorBackground" format="color"/>
+        <attr name="textColorBackground" format="color"/>
+        <attr name="imageTintColor" format="color"/>
+        <attr name="imageTintColorDeep" format="color"/>
+        <attr name="lineColor" format="color"/>
+        <attr name="titleColor" format="color"/>
+        <attr name="rippleColor" format="color"/>
+        <attr name="searchBarColor" format="color"/>
+    </declare-styleable>
+
 </resources>

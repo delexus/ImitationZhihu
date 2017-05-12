@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        MainApplication.getInstance(this).setDayOrNight(true);
         super.onCreate(savedInstanceState);
         MainApplication.getRefWatcher(this).watch(this);
         setContentView(R.layout.activity_main);
@@ -59,9 +60,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onCheckedChanged(RadioImageGroup group, @IdRes int checkedId) {
         // 底部按钮切换到其它Fragment先隐藏掉当前的Fragment，但不要隐藏ExploreFragment
         if (mCurrentFragment != null) {
-            if (mCurrentFragment instanceof ExploreFragment) {
-                ExploreFragment fragment = (ExploreFragment) mCurrentFragment;
-            } else {
+            if (!(mCurrentFragment instanceof ExploreFragment)) {
                 getFragmentManager()
                         .beginTransaction()
                         .hide(mCurrentFragment)
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements
         switch (checkedId) {
             case R.id.btn_feed:
                 showFragment(R.id.content, EXPLORE_FRAGMENT, false, false);
-                ExploreFragment fragment = (ExploreFragment) mCurrentFragment;
                 break;
             case R.id.btn_discover:
                 Toast.makeText(this, "discover", Toast.LENGTH_SHORT).show();
