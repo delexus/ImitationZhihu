@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
+
+import com.delexus.imitationzhihu.otto.MyBus;
+import com.delexus.imitationzhihu.otto.ThemeEvent;
+import com.squareup.otto.Subscribe;
 
 /**
  * Created by delexus on 2017/3/3.
@@ -26,9 +31,10 @@ public class MainActivity extends AppCompatActivity implements
 
     private BaseFragment mCurrentFragment;
 
+    private boolean mNightMode;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        MainApplication.getInstance(this).setDayOrNight(true);
         super.onCreate(savedInstanceState);
         MainApplication.getRefWatcher(this).watch(this);
         setContentView(R.layout.activity_main);
@@ -36,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void init() {
+        MyBus.getInstance().register(this);
+
         mRadioImageGroup = (RadioImageGroup) findViewById(R.id.main_group);
         mRadioImageGroup.setOnCheckedChangeListener(this);
         showFragment(R.id.content, EXPLORE_FRAGMENT, false, false);
@@ -54,6 +62,12 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        MyBus.getInstance().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -121,12 +135,10 @@ public class MainActivity extends AppCompatActivity implements
             mCurrentFragment.setOnFragmentState(new BaseFragment.OnFragmentStateListener() {
                 @Override
                 public void onHidden(boolean isHidden) {
-                    if (isHidden) {
-                        if (mCurrentFragment instanceof ExploreFragment) {
+                    if (mCurrentFragment instanceof ExploreFragment) {
+                        if (isHidden) {
                             mRadioImageGroup.setVisibility(View.VISIBLE);
-                        }
-                    } else {
-                        if (mCurrentFragment instanceof ExploreFragment) {
+                        } else {
                             mRadioImageGroup.setVisibility(View.GONE);
                         }
                     }
@@ -140,6 +152,21 @@ public class MainActivity extends AppCompatActivity implements
                     FragmentTransaction.TRANSIT_NONE)
                     .add(id, mCurrentFragment, tag)
                     .commit();
+        }
+    }
+
+    @Subscribe
+    public void onChangeTheme(ThemeEvent event) {
+        refreshUI();
+    }
+
+    public void refreshUI() {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(android.R.attr.colorBackground, typedValue, true);
+        final int count = mRadioImageGroup.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View view = mRadioImageGroup.getChildAt(i);
+            view.setBackgroundResource(typedValue.resourceId);
         }
     }
 

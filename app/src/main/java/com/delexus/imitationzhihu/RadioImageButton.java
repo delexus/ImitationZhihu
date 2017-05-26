@@ -9,7 +9,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.CompoundButton;
 
-import java.lang.reflect.Field;
+import com.delexus.imitationzhihu.util.NightModeHelper;
+import com.delexus.imitationzhihu.util.ReflectUtil;
 
 /**
  * Created by delexus on 2017/3/13.
@@ -33,24 +34,24 @@ public class RadioImageButton extends CompoundButton {
 
     public RadioImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mDrawable = (Drawable) reflectParentFieldAndReturn(this, getClass().getSuperclass().getName(),
+        mDrawable = (Drawable) ReflectUtil.reflectParentFieldAndReturn(this, getClass().getSuperclass().getName(),
                 "mButtonDrawable");
-        final boolean isDay = MainApplication.getInstance(getContext()).getDayOrNight();
+        final boolean isNight = NightModeHelper.getInstance().getMode() == NightModeHelper.NIGHT;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            if (isDay) {
-                mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
-                        getResources().getColor(R.color.gray_300), PorterDuff.Mode.SRC_IN);
-            } else {
+            if (isNight) {
                 mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
                         getResources().getColor(R.color.blue_gray_700), PorterDuff.Mode.SRC_IN);
+            } else {
+                mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
+                        getResources().getColor(R.color.gray_300), PorterDuff.Mode.SRC_IN);
             }
         } else {
-            if (isDay) {
-                mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
-                        getResources().getColor(R.color.gray_300));
-            } else {
+            if (isNight) {
                 mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
                         getResources().getColor(R.color.blue_gray_700));
+            } else {
+                mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
+                        getResources().getColor(R.color.gray_300));
             }
         }
     }
@@ -114,25 +115,25 @@ public class RadioImageButton extends CompoundButton {
     @Override
     public void setChecked(boolean checked) {
         super.setChecked(checked);
-        final boolean isDay = MainApplication.getInstance(getContext()).getDayOrNight();
+        final boolean isNight = NightModeHelper.getInstance().getMode() == NightModeHelper.NIGHT;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             if (mDrawable != null) {
-                if (isDay) {
-                    mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
-                            getResources().getColor(R.color.gray_300), PorterDuff.Mode.SRC_IN);
-                } else {
+                if (isNight) {
                     mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
                             getResources().getColor(R.color.blue_gray_700), PorterDuff.Mode.SRC_IN);
+                } else {
+                    mDrawable.setColorFilter(isChecked() ? getResources().getColor(R.color.blue_500) :
+                            getResources().getColor(R.color.gray_300), PorterDuff.Mode.SRC_IN);
                 }
             }
         } else {
             if (mDrawable != null) {
-                if (isDay) {
-                    mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
-                            getResources().getColor(R.color.gray_300));
-                } else {
+                if (isNight) {
                     mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
                             getResources().getColor(R.color.blue_gray_700));
+                } else {
+                    mDrawable.setTint(isChecked() ? getResources().getColor(R.color.blue_500) :
+                            getResources().getColor(R.color.gray_300));
                 }
             }
         }
@@ -152,23 +153,4 @@ public class RadioImageButton extends CompoundButton {
         mOnCheckedChangeWidgetListener = listener;
     }
 
-    public static Object reflectParentFieldAndReturn(Object object, String clazzName, String fieldName) {
-        Field field = null;
-        Object ret = null;
-        try {
-            for (Class clazz = object.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
-                if (clazz.getName().equals(clazzName))
-                    field = clazz.getDeclaredField(fieldName);
-            }
-            if (field != null) {
-                field.setAccessible(true);
-                ret = field.get(object);
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return ret;
-    }
 }

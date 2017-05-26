@@ -31,7 +31,7 @@ public class MainApplication extends Application {
     }
 
     /**
-     * @return true 白天 false 夜间
+     * @return true 夜间 false 白天
      */
     public boolean getDayOrNight() {
         return mIsDay;

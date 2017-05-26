@@ -86,7 +86,7 @@ public class ReflectUtil {
         try {
             for (Class clazz = object.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
                 if (clazz.getName().equals(clazzName))
-                    field = object.getClass().getDeclaredField(fieldName);
+                    field = clazz.getDeclaredField(fieldName);
             }
             if (field != null) {
                 field.setAccessible(true);

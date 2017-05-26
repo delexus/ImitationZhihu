@@ -10,6 +10,10 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
+import com.delexus.imitationzhihu.otto.MyBus;
+import com.delexus.imitationzhihu.otto.ThemeEvent;
+import com.delexus.imitationzhihu.util.NightModeHelper;
+
 /**
  * 更多界面
  * Created by delexus on 2017/5/6.
@@ -48,9 +52,9 @@ public class MoreFragment extends BaseFragment implements CompoundButton.OnCheck
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView.getId() == R.id.switch_night) {
-            // TODO ..
-//            changeTheme(isChecked);
+            NightModeHelper.getInstance().setMode(isChecked ? NightModeHelper.NIGHT : NightModeHelper.DAY);
             getActivity().setTheme(isChecked ? R.style.AppThemeNight : R.style.AppTheme);
+            MyBus.getInstance().post(new ThemeEvent(isChecked));
         }
     }
 

@@ -8,7 +8,7 @@ import android.app.Fragment;
 
 public class BaseFragment extends Fragment {
 
-    private SearchFragment.OnFragmentStateListener mOnFragmentStateListener;
+    private OnFragmentStateListener mOnFragmentStateListener;
 
     /**
      * 返回监听
